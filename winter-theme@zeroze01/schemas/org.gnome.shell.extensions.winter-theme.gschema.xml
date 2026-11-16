@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.winter-theme" path="/org/gnome/shell/extensions/winter-theme/">
+    <key name="active" type="b">
+      <default>true</default>
+      <summary>Master switch for every effect</summary>
+    </key>
+
+    <key name="snow-enabled" type="b">
+      <default>true</default>
+      <summary>Show falling snow</summary>
+    </key>
+    <key name="flake-count" type="i">
+      <default>160</default>
+      <range min="20" max="600"/>
+      <summary>Number of snowflakes on a 1920×1080 monitor (scaled by monitor area)</summary>
+    </key>
+    <key name="flake-size" type="d">
+      <default>1.0</default>
+      <range min="0.5" max="2.5"/>
+      <summary>Snowflake size multiplier</summary>
+    </key>
+    <key name="fall-speed" type="d">
+      <default>1.0</default>
+      <range min="0.3" max="3.0"/>
+      <summary>Fall speed multiplier</summary>
+    </key>
+    <key name="wind" type="d">
+      <default>0.15</default>
+      <range min="-1.0" max="1.0"/>
+      <summary>Steady wind, negative blows left and positive blows right</summary>
+    </key>
+    <key name="snow-in-front" type="b">
+      <default>true</default>
+      <summary>Draw snow in front of windows instead of only on the desktop</summary>
+    </key>
+    <key name="pause-on-fullscreen" type="b">
+      <default>true</default>
+      <summary>Hide snow on monitors showing a fullscreen window</summary>
+    </key>
+
+    <key name="pile-enabled" type="b">
+      <default>true</default>
+      <summary>Let snow pile up on top of windows</summary>
+    </key>
+    <key name="pile-max-height" type="i">
+      <default>22</default>
+      <range min="6" max="60"/>
+      <summary>Maximum height of a snow pile in pixels</summary>
+    </key>
+    <key name="pile-rate" type="d">
+      <default>1.0</default>
+      <range min="0.1" max="10.0"/>
+      <summary>How quickly snow builds up</summary>
+    </key>
+
+    <key name="scenery-enabled" type="b">
+      <default>true</default>
+      <summary>Draw a winter scene along the bottom of the desktop</summary>
+    </key>
+    <key name="scenery-height" type="i">
+      <default>28</default>
+      <range min="12" max="45"/>
+      <summary>Height of the winter scene as a percentage of the monitor height</summary>
+    </key>
+
+    <key name="lights-enabled" type="b">
+      <default>true</default>
+      <summary>Hang Christmas lights under the top bar</summary>
+    </key>
+    <key name="lights-twinkle" type="b">
+      <default>true</default>
+      <summary>Make the lights twinkle</summary>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,6 @@
+{
+  "uuid": "preview-driver@winter-theme",
+  "name": "Winter Theme preview driver",
+  "description": "Development only. Unlocks the shell's Eval and Screenshot D-Bus calls inside the throwaway session started by tools/preview.sh. Never install this in a real session.",
+  "shell-version": ["51"]
+}
