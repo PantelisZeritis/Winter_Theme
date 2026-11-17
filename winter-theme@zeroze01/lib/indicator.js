@@ -2,18 +2,25 @@
 // switches the individual effects.
 
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import {QuickMenuToggle, SystemIndicator} from 'resource:///org/gnome/shell/ui/quickSettings.js';
 
+import {countdown, msUntilMidnight} from './countdown.js';
+
 const ICON = 'weather-snow-symbolic';
 const EFFECTS = [
     ['snow-enabled', 'Falling snow'],
     ['pile-enabled', 'Snow on windows'],
+    ['cover-enabled', 'Snow on idle monitors'],
     ['scenery-enabled', 'Winter scenery'],
-    ['lights-enabled', 'Christmas lights'],
+    ['countdown-enabled', 'Christmas countdown'],
+    ['sleigh-bells-enabled', 'Sleigh-bell sounds'],
+    ['aurora-enabled', 'Northern lights'],
+    ['shooting-stars-enabled', 'Shooting stars'],
 ];
 
 const WinterToggle = GObject.registerClass(
@@ -27,7 +34,18 @@ class WinterToggle extends QuickMenuToggle {
 
         settings.bind('active', this, 'checked', Gio.SettingsBindFlags.DEFAULT);
 
-        this.menu.setHeader(ICON, 'Winter Theme');
+        // The countdown shows under the tile's title and in the menu header.
+        // It refreshes just after midnight and whenever Quick Settings opens
+        // (which also covers waking from suspend).
+        this._settings = settings;
+        this._midnightId = 0;
+        this.connect('destroy', () => this._stopMidnight());
+        settings.connectObject('changed::countdown-enabled', () => this._syncCountdown(), this);
+        Main.panel.statusArea.quickSettings.menu.connectObject('open-state-changed', (_menu, open) => {
+            if (open)
+                this._syncCountdown();
+        }, this);
+        this._syncCountdown();
 
         for (const [key, label] of EFFECTS) {
             const item = new PopupMenu.PopupSwitchMenuItem(label, settings.get_boolean(key));
@@ -42,6 +60,32 @@ class WinterToggle extends QuickMenuToggle {
             Main.overview.hide();
             Main.panel.closeQuickSettings();
             extension.openPreferences();
+        });
+    }
+
+    _stopMidnight() {
+        if (this._midnightId) {
+            GLib.source_remove(this._midnightId);
+            this._midnightId = 0;
+        }
+    }
+
+    _syncCountdown() {
+        this._stopMidnight();
+        if (!this._settings.get_boolean('countdown-enabled')) {
+            this.subtitle = null;
+            this.menu.setHeader(ICON, 'Winter Theme');
+            return;
+        }
+
+        const now = new Date();
+        const text = countdown(now.getFullYear(), now.getMonth() + 1, now.getDate());
+        this.subtitle = text.short;
+        this.menu.setHeader(ICON, 'Winter Theme', text.long);
+        this._midnightId = GLib.timeout_add(GLib.PRIORITY_LOW, msUntilMidnight(now), () => {
+            this._midnightId = 0;
+            this._syncCountdown();
+            return GLib.SOURCE_REMOVE;
         });
     }
 });

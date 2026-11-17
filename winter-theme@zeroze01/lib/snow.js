@@ -158,7 +158,12 @@ export class SnowLayer {
 
         if (this._settings.get_boolean('snow-in-front')) {
             // Above every window, below the panel, overview and popups.
-            Main.layoutManager.uiGroup.insert_child_above(this.actor, global.window_group);
+            const uiGroup = Main.layoutManager.uiGroup;
+            uiGroup.insert_child_above(this.actor, global.window_group);
+            // Flakes fall in front of the idle-monitor cover, if there is one.
+            const cover = uiGroup.get_children().find(c => c.name === 'winter-theme-cover');
+            if (cover)
+                uiGroup.set_child_above_sibling(this.actor, cover);
         } else {
             // On the desktop only. Anything placed directly in window_group
             // floats above the windows on the next restack, so use the

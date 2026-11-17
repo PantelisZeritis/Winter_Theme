@@ -1,4 +1,4 @@
-// Small Cairo helpers shared by the scenery and the panel lights.
+// Small Cairo helpers for the scenery.
 // Nothing in here touches the shell, so it also runs under plain gjs
 // (see tools/render-scene.js).
 
@@ -22,6 +22,26 @@ export function rng(seed) {
 export function hex(color) {
     const v = parseInt(color.slice(1), 16);
     return [(v >> 16 & 255) / 255, (v >> 8 & 255) / 255, (v & 255) / 255];
+}
+
+// Blend two colours: t = 0 gives a, t = 1 gives b. Returns [r, g, b] in 0..1.
+export function mix(a, b, t) {
+    const ca = hex(a);
+    const cb = hex(b);
+    return ca.map((v, i) => v + (cb[i] - v) * t);
+}
+
+// Smooth 1-D value noise in -1..1 with the given feature size in px.
+export function valueNoise(rand, length, size) {
+    const n = Math.ceil(length / size) + 2;
+    const lattice = Array.from({length: n}, () => rand() * 2 - 1);
+    return x => {
+        const f = x / size;
+        const i = Math.max(0, Math.min(n - 2, Math.floor(f)));
+        const t = f - i;
+        const w = (1 - Math.cos(t * Math.PI)) / 2;
+        return lattice[i] * (1 - w) + lattice[i + 1] * w;
+    };
 }
 
 export function setColor(cr, color, alpha = 1) {

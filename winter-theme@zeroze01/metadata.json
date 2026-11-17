@@ -1,7 +1,7 @@
 {
   "uuid": "winter-theme@zeroze01",
   "name": "Winter Theme",
-  "description": "Falling snow that piles up on your windows, a winter scene along the bottom of the desktop and Christmas lights under the top bar.",
+  "description": "Falling snow that piles up on your windows, and a full-screen winter scene in place of the wallpaper.",
   "shell-version": ["51"],
   "settings-schema": "org.gnome.shell.extensions.winter-theme",
   "version-name": "1.0"

@@ -54,23 +54,48 @@
       <summary>How quickly snow builds up</summary>
     </key>
 
-    <key name="scenery-enabled" type="b">
+    <key name="countdown-enabled" type="b">
       <default>true</default>
-      <summary>Draw a winter scene along the bottom of the desktop</summary>
-    </key>
-    <key name="scenery-height" type="i">
-      <default>28</default>
-      <range min="12" max="45"/>
-      <summary>Height of the winter scene as a percentage of the monitor height</summary>
+      <summary>Show a Christmas countdown in Quick Settings</summary>
     </key>
 
-    <key name="lights-enabled" type="b">
+    <key name="sleigh-bells-enabled" type="b">
+      <default>false</default>
+      <summary>Play soft sleigh bells instead of the notification sound</summary>
+    </key>
+
+    <key name="cover-enabled" type="b">
       <default>true</default>
-      <summary>Hang Christmas lights under the top bar</summary>
+      <summary>Let snow cover monitors that are not in use</summary>
+      <description>A monitor is idle while the pointer is on another monitor and the focused window is not on it. The cover melts when the pointer comes back.</description>
+    </key>
+    <key name="cover-max-opacity" type="i">
+      <default>70</default>
+      <range min="20" max="90"/>
+      <summary>Maximum opacity of the idle-monitor snow cover, in percent</summary>
+    </key>
+
+    <key name="scenery-enabled" type="b">
+      <default>true</default>
+      <summary>Replace the wallpaper with a full-screen winter scene</summary>
+    </key>
+    <key name="scenery-height" type="i">
+      <default>38</default>
+      <range min="12" max="45"/>
+      <summary>Height of the landscape at the bottom of the scene, as a percentage of the monitor height; the sky fills the rest</summary>
+    </key>
+
+    <key name="aurora-enabled" type="b">
+      <default>true</default>
+      <summary>Show animated northern lights in the night scene</summary>
+    </key>
+    <key name="shooting-stars-enabled" type="b">
+      <default>true</default>
+      <summary>Show an occasional shooting star in the night scene</summary>
     </key>
     <key name="lights-twinkle" type="b">
       <default>true</default>
-      <summary>Make the lights twinkle</summary>
+      <summary>Make the lights on the Christmas tree in the scene twinkle</summary>
     </key>
   </schema>
 </schemalist>

@@ -46,6 +46,8 @@ export default class WinterThemePreferences extends ExtensionPreferences {
         const general = group('General');
         toggle(general, 'active', 'Winter theme',
             'Master switch, also available in Quick Settings');
+        toggle(general, 'countdown-enabled', 'Christmas countdown',
+            'Days until Christmas, under the Winter tile in Quick Settings');
 
         const snow = group('Snow');
         toggle(snow, 'snow-enabled', 'Falling snow');
@@ -67,15 +69,28 @@ export default class WinterThemePreferences extends ExtensionPreferences {
             'Pixels', 6, 60, 1);
         number(piles, 'pile-enabled', 'pile-rate', 'Build-up speed', null, 0.1, 10, 0.1, 1);
 
-        const scenery = group('Scenery',
-            'Snowy hills, pines, a cabin, a snowman and a Christmas tree along the bottom of the desktop. Follows the light and dark style.');
-        toggle(scenery, 'scenery-enabled', 'Winter scenery');
-        number(scenery, 'scenery-enabled', 'scenery-height', 'Height',
-            'Percent of the screen height', 12, 45, 1);
+        const sounds = group('Sounds');
+        toggle(sounds, 'sleigh-bells-enabled', 'Sleigh bells for notifications',
+            'Soft bells instead of the notification sound. Silent in Do Not Disturb, for apps with sound alerts off, and when system alert sounds are off.');
 
-        const lights = group('Christmas lights');
-        toggle(lights, 'lights-enabled', 'Lights under the top bar');
-        toggle(lights, 'lights-twinkle', 'Twinkle',
-            'Also applies to the lights on the Christmas tree');
+        const cover = group('Snow on idle monitors',
+            'With more than one monitor, a monitor you are not using (pointer elsewhere and no focused window on it) slowly fills with snow. Move the pointer onto it to melt the snow away.');
+        toggle(cover, 'cover-enabled', 'Cover idle monitors');
+        number(cover, 'cover-enabled', 'cover-max-opacity', 'Maximum cover',
+            'Percent opacity, so the screen stays readable', 20, 90, 5);
+
+        const scenery = group('Scenery',
+            'A full-screen winter scene in place of the wallpaper: sky, snowy hills, pines, a cabin, a snowman and a Christmas tree. Day or night follows the light and dark style.');
+        toggle(scenery, 'scenery-enabled', 'Winter scenery');
+        number(scenery, 'scenery-enabled', 'scenery-height', 'Landscape height',
+            'Percent of the screen; the sky fills the rest', 12, 45, 1);
+        const aurora = toggle(scenery, 'aurora-enabled', 'Northern lights',
+            'Animated, in the night scene (dark style) only');
+        settings.bind('scenery-enabled', aurora, 'sensitive', Gio.SettingsBindFlags.GET);
+        const meteors = toggle(scenery, 'shooting-stars-enabled', 'Shooting stars',
+            'Now and then, in the night scene (dark style) only');
+        settings.bind('scenery-enabled', meteors, 'sensitive', Gio.SettingsBindFlags.GET);
+        const twinkle = toggle(scenery, 'lights-twinkle', 'Twinkling tree lights');
+        settings.bind('scenery-enabled', twinkle, 'sensitive', Gio.SettingsBindFlags.GET);
     }
 }

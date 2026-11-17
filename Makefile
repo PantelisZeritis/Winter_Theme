@@ -2,7 +2,7 @@ UUID := winter-theme@zeroze01
 SRC := $(UUID)
 INSTALL_DIR := $(HOME)/.local/share/gnome-shell/extensions/$(UUID)
 
-.PHONY: schemas install uninstall enable disable pack preview scene check clean
+.PHONY: schemas install uninstall enable disable pack preview scene check test clean
 
 # The compiled schema must sit next to the XML; the shell does not compile it.
 schemas:
@@ -41,6 +41,9 @@ check:
 	@for f in $(SRC)/*.js $(SRC)/lib/*.js tools/*.js; do \
 		node --check --input-type=module < $$f || exit 1; \
 	done; echo "syntax ok"
+
+test:
+	gjs -m tools/test-countdown.js
 
 clean:
 	rm -rf preview $(UUID).shell-extension.zip
